@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
-import { setSearchName, searchName, setRepos } from './actions';
-import setRepoLists from './reducers/setRepoLists';
+import { setSearchName, searchName, setRepos, searchAnother } from './actions';
 import RepoList from './RepoList';
-import './App.css';
-
-
 
 // @component
 // search bar component
@@ -14,20 +10,23 @@ const SearchBar = () => {
   const githubName = useSelector(state => state.githubName);
   const dispatch = useDispatch();
   return (
-    <section>
+    <section className="searchBar wrapper">
+      <label htmlFor="githubName">Github Username: </label>
       <input
         type="text"
+        id="githubName"
         value={githubName}
+        placeholder="Type something..."
         onChange={e => dispatch(setSearchName(e.target.value))}
       />
 
-      <button type="button" onClick={() => dispatch(searchName(githubName))}>Search</button>
+      <button type="button" onClick={() => dispatch(searchName(githubName))}>Get User</button>
     </section>
   );
 };
 
 const mapStateToProps = state => (state);
-const mapDispatchToProps = { setRepos }
+const mapDispatchToProps = { setRepos, searchAnother }
 
 const RepoListConnected = connect(
   mapStateToProps,
@@ -36,7 +35,6 @@ const RepoListConnected = connect(
 
 
 const App = (props) => {
-  console.log(props)
     return (
       <main>
         {
@@ -45,7 +43,6 @@ const App = (props) => {
             :
             <SearchBar />
         }
-
       </main>
     );
 };

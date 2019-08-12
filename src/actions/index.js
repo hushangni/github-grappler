@@ -13,6 +13,12 @@ export const searchName = name => ({
 });
 
 // @action
+// search another
+export const searchAnother = () => ({
+    type: "SEARCH_ANOTHER"
+})
+
+// @action
 // set repos
 export const setRepos = ({ forks, pullRequests }) => ({
     type: "SET_REPOS",

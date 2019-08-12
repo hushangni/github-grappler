@@ -5,6 +5,9 @@ import { createStore } from 'redux';
 import rootReducer from './reducers';
 import App from './App';
 
+import './styles/setup.css';
+import './styles/App.css';
+
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(

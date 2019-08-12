@@ -12,6 +12,8 @@ const searchNameReducer = (state = INIT_SEARCH_STATE, action) => {
       return { ...state, githubName: action.payload.name };
     case "SEARCH_NAME":
       return {...state, searched: true };
+    case "SEARCH_ANOTHER":
+      return {...state, githubName: "", searched: false }
     default:
       return state;
   }
