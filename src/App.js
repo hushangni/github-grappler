@@ -1,61 +1,54 @@
 import React, { Component } from 'react';
-
-import { createStore } from 'redux';
+import { useSelector, useDispatch, connect } from 'react-redux';
+import { setSearchName, searchName, setRepos } from './actions';
+import setRepoLists from './reducers/setRepoLists';
+import RepoList from './RepoList';
 import './App.css';
 
-// creating initial search state
-const INIT_SEARCH_STATE = {
-  githubName: ""
-};
-
-// @action
-// set search name
-const setSearchName = name => ({
-  type: "SET_SEARCH_NAME",
-  payload: { name }
-});
 
 
-// @reducer
-// search githubname reducer
-const searchGithubNameReducer = (state = INIT_SEARCH_STATE, action) => {
-  switch (action.type) {
-    case "SET_SEARCH_NAME":
-      return { ...state, githubName: action.payload.name };
-    default:
-      return state;
-  }
-};
-
-// @store
-// creating global store
-export const store = createStore(searchGithubNameReducer);
-
+// @component
+// search bar component
 const SearchBar = () => {
+  // we get access to the whole state
+  const githubName = useSelector(state => state.githubName);
+  const dispatch = useDispatch();
   return (
     <section>
       <input
         type="text"
-        // value={pokemonName}
-        // onChange={evt => setNewName(evt.target.value)}
+        value={githubName}
+        onChange={e => dispatch(setSearchName(e.target.value))}
       />
 
-      <button type="button">Search</button>
+      <button type="button" onClick={() => dispatch(searchName(githubName))}>Search</button>
     </section>
   );
 };
 
-class App extends Component {
+const mapStateToProps = state => (state);
+const mapDispatchToProps = { setRepos }
+
+const RepoListConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RepoList);
 
 
-  render() {
+const App = (props) => {
+  console.log(props)
     return (
       <main>
-        <SearchBar />
+        {
+          props.searchNameReducer.searched ?
+            <RepoListConnected />
+            :
+            <SearchBar />
+        }
+
       </main>
     );
-  }
 };
 
-export default App;
+export default connect(mapStateToProps)(App);
 
